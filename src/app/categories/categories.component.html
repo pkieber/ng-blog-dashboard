@@ -13,7 +13,7 @@
             class="form-control shadow-effect"
             placeholder="Add New Categories"
             #newCategory = 'ngModel'
-            [(ngModel)]="category"
+            [(ngModel)]="categoryName"
             required
             [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}"
           >
@@ -30,5 +30,35 @@
 
     </div>
   </div>
+
+  <div class="row mt-5 mb-5">
+
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6">
+      <div class="card shadow-effect">
+        <div class="card-body">
+          <table class="table row-border hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = 'let category of allCategories | async; let i = index '>
+                <td>{{ i + 1 }}</td>
+                <td>{{ category.category }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div></div>
+    </div>
+  </div>
+
+  <div class="col-md-3"></div>
+
 </div>
 

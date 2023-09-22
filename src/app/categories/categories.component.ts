@@ -15,7 +15,7 @@ import {
 
 export class CategoriesComponent {
 
-  category!: string;
+  category: string = '';
 
   constructor(private firestore: Firestore) {}
 

@@ -76,7 +76,7 @@ onEdit(categoryName: string, categoryId: string) {
 
 
 onDelete(categoryId: string) {
-  this.categoryService.deleteCategories(this.categoryId)
+  this.categoryService.deleteCategories(categoryId)
     .then(()=> {
         this.showAlert('Data Deleted Successfully');
     })

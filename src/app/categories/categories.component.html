@@ -13,7 +13,7 @@
             class="form-control shadow-effect"
             placeholder="Add New Categories"
             #newCategory = 'ngModel'
-            [(ngModel)]="formCategory"
+            [(ngModel)]="categoryName"
             required
             [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}"
           >
@@ -47,12 +47,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor = 'let cat of categoryList | async; let i = index '>
+              <tr *ngFor = 'let data of categoryList | async; let i = index '>
                 <td>{{ i + 1 }}</td>
-                <td>{{ cat.category }}</td>
+                <td>{{ data.category }}</td>
                 <td>
-                  <button class="btn btn-sm btn-warning" (click)="onEdit(cat.category)">EDIT</button>
-                  <button class="btn btn-sm btn-danger ml-3" (click)="onDelete(cat.id)">DELETE</button>
+                  <button class="btn btn-sm btn-warning" (click)="onEdit(data.category, data.id)">EDIT</button>
+                  <button class="btn btn-sm btn-danger ml-3" (click)="onDelete(data.id)">DELETE</button>
                 </td>
               </tr>
             </tbody>

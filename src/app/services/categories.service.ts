@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import {
   Firestore,
   collection, addDoc,
@@ -19,7 +20,7 @@ export class CategoriesService {
 
   addCategory (data: object) {
     const dbInstance = collection(this.firestore, 'categories');
-    this.toastr.success('Data Insert Successfully');
+    this.toastr.success('Data Added Successfully');
     return addDoc(dbInstance, data);
   }
 
@@ -30,14 +31,15 @@ export class CategoriesService {
   }
 
 
-  updateCategorie(id: string, data: object) {
-    const docInstance = doc(this.firestore, 'categories', id);
+  updateCategories(categoryId: string, data: object): Promise<void> {
+    const docInstance = doc(this.firestore, 'categories', categoryId);
+    this.toastr.success('Data Updated Successfully');
     return updateDoc(docInstance, data);
   }
 
 
-  deleteCategories(id: string) {
-    const docInstance = doc(this.firestore, 'categories', id);
+  deleteCategories(categoryId: string) {
+    const docInstance = doc(this.firestore, 'categories', categoryId);
     return deleteDoc(docInstance);
   }
 

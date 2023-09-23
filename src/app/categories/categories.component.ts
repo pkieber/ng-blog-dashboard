@@ -16,6 +16,7 @@ export class CategoriesComponent {
 
 /* 04:38 */
 
+  categoryName!: string;
   categoryId!: string;
 
   formStatus: string = 'ADD'; // Dynamic button text
@@ -38,35 +39,46 @@ export class CategoriesComponent {
   }
 
 
-  // Add document on submit.
-  onSubmit(values: any) {
+onSubmit(values: object) {
+
+  if (this.formStatus == "ADD") {
     this.categoryService.addCategory(values)
       .then(()=> {
-        this.showAlert('Data Saved Successfully');
-        this.resetForm();
+        this.showAlert('Data Saved Successfully.');
       })
       .catch(err => {
         console.log(err);
-    })
+      })
+    }
+
+    else if (this.formStatus == "EDIT") {
+      this.categoryService.updateCategories(this.categoryId, values )
+      .then(()=> {
+        this.showAlert('Data Edited Successfully.');
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
   }
 
 
   loadCategories() {
     this.categoryList = this.categoryService.loadCategories();
-  }
+}
 
 
-  onEdit(category: string) {
-    // Assign data variable to global variables.
-    this.formCategory = category;
-    this.formStatus = 'EDIT'; // dynamic button text
-  }
+onEdit(categoryName: string, categoryId: string) {
+  this.categoryName = categoryName;
+  this.categoryId = categoryId;
+  this.formStatus = 'EDIT';
+}
 
 
-  onDelete(categoryId: string) {
-    this.categoryService.deleteCategories(this.categoryId)
+onDelete(categoryId: string) {
+  this.categoryService.deleteCategories(this.categoryId)
     .then(()=> {
-      this.showAlert('Data Deleted Successfully');
+        this.showAlert('Data Deleted Successfully');
     })
     .catch(err => {
       console.log(err);

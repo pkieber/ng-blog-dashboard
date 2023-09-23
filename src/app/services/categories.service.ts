@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import {
   Firestore,
   collection, addDoc,
@@ -40,6 +39,7 @@ export class CategoriesService {
 
   deleteCategories(categoryId: string) {
     const docInstance = doc(this.firestore, 'categories', categoryId);
+    this.toastr.success('Data Deleted Successfully');
     return deleteDoc(docInstance);
   }
 

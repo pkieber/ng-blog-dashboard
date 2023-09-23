@@ -15,26 +15,25 @@
             #newCategory = 'ngModel'
             [(ngModel)]="categoryName"
             required
-            [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}"
+            [ngClass]="{ 'is-invalid': newCategory.touched && newCategory.invalid }"
           >
-
+          <!--- Alert message -->
           <div class="alert alert-danger" *ngIf="newCategory.touched && newCategory.invalid">
             Category field is required
           </div>
-
         </div>
+        <!-- Button with dynamic text (EDIT/ADD) -->
         <div class="col-md-2">
           <button class="btn btn-info btn-block btn-theme mb-2" [disabled]="categoryForm.invalid">{{ formStatus }} CATEGORY</button>
         </div>
       </form>
-
     </div>
   </div>
 
   <div class="row mt-5 mb-5">
-
+    <!-- Empty container -->
     <div class="col-md-3"></div>
-
+    <!-- Show list of categories -->
     <div class="col-md-6">
       <div class="card shadow-effect">
         <div class="card-body">
@@ -60,8 +59,7 @@
         </div></div>
     </div>
   </div>
-
+  <!-- Empty container -->
   <div class="col-md-3"></div>
-
 </div>
 

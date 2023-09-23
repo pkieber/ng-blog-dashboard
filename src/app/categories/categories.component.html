@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
-      <h3 class="text-center text-primary-theme">New Categories</h3>
+      <h3 class="text-center text-primary-theme">{{ formStatus }} Categories</h3>
       <p class="text-center mb-5">You can add new categories from here...!</p>
 
       <!-- Form -->
@@ -13,7 +13,7 @@
             class="form-control shadow-effect"
             placeholder="Add New Categories"
             #newCategory = 'ngModel'
-            [(ngModel)]="categoryName"
+            [(ngModel)]="formCategory"
             required
             [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}"
           >
@@ -24,7 +24,7 @@
 
         </div>
         <div class="col-md-2">
-          <button class="btn btn-info btn-block btn-theme mb-2" [disabled]="categoryForm.invalid">ADD CATEGORY</button>
+          <button class="btn btn-info btn-block btn-theme mb-2" [disabled]="categoryForm.invalid">{{ formStatus }} CATEGORY</button>
         </div>
       </form>
 
@@ -47,10 +47,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor = 'let category of allCategories | async; let i = index '>
+              <tr *ngFor = 'let cat of categoryList | async; let i = index '>
                 <td>{{ i + 1 }}</td>
-                <td>{{ category.category }}</td>
-                <td></td>
+                <td>{{ cat.category }}</td>
+                <td>
+                  <button class="btn btn-sm btn-warning" (click)="onEdit(cat.category)">EDIT</button>
+                  <button class="btn btn-sm btn-danger ml-3" (click)="onDelete(cat.id)">DELETE</button>
+                </td>
               </tr>
             </tbody>
           </table>

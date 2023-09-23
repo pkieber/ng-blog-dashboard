@@ -11,15 +11,16 @@ import { Observable } from 'rxjs';
 
 export class CategoriesComponent {
 
-  allCategories!: Observable<Array<any>>
+  categoryList!: Observable<Array<any>>
+  formCategory!: string; // form data binding
+
+/* 04:38 */
 
   categoryId!: string;
-  categoryName!: string;
 
-  formState: string = 'Add New';
+  formStatus: string = 'ADD'; // Dynamic button text
   isSuccess: boolean = false;
   successMessage!: string;
-
 
 
   constructor(private categoryService: CategoriesService) {
@@ -32,54 +33,37 @@ export class CategoriesComponent {
   }
 
   resetForm() {
-    this.categoryName = '';
-    this.formState = 'Add new';
+    this.formCategory = '';
+    this.formStatus = 'ADD';
   }
 
 
   // Add document on submit.
   onSubmit(values: any) {
-    if (this.formState == "Add New") {
-      this.categoryService.addCategory(values)
+    this.categoryService.addCategory(values)
       .then(()=> {
         this.showAlert('Data Saved Successfully');
         this.resetForm();
       })
       .catch(err => {
         console.log(err);
-      })
-    }
-
-    else if (this.formState == "Edit") {
-      this.categoryService.updateCategorie(this.categoryId, values)
-        .then(()=> {
-          this.showAlert('Data Edited Successfully');
-          this.resetForm();
-        })
-        .catch(err => {
-          console.log(err);
-        })
-      }
-    }
+    })
+  }
 
 
   loadCategories() {
-    this.allCategories = this.categoryService.loadCategories();
-    console.log(this.allCategories);
+    this.categoryList = this.categoryService.loadCategories();
   }
 
 
-  editCategory(categoryId: string, categoryName: string) {
+  onEdit(category: string) {
     // Assign data variable to global variables.
-    this.categoryId = categoryId;
-    this.categoryName = categoryName;
-
-
-    this.formState = 'Edit';
+    this.formCategory = category;
+    this.formStatus = 'EDIT'; // dynamic button text
   }
 
 
-  deleteCategory(categoryId: string) {
+  onDelete(categoryId: string) {
     this.categoryService.deleteCategories(this.categoryId)
     .then(()=> {
       this.showAlert('Data Deleted Successfully');
@@ -88,7 +72,5 @@ export class CategoriesComponent {
       console.log(err);
     })
   }
-
-
 
 }

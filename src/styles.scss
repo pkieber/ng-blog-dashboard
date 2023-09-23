@@ -45,6 +45,10 @@ body {
   color: var(--primary-color)
 }
 
+.text-secondary-theme {
+  color: var(--secondary-color);
+}
+
 input[type = text], input[type = email] {
   height: 60px;
   padding-left: 20px;
@@ -59,7 +63,6 @@ input[type = text], input[type = email] {
   color: var(--secondary-color);
   width: 100%;
 }
-
 
 .ml-3 {
   margin-left: 3px;

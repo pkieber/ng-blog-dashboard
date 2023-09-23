@@ -15,6 +15,8 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { CategoriesComponent } from './categories/categories.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AllPostsComponent } from './posts/all-posts/all-posts.component';
+import { NewPostComponent } from './posts/new-post/new-post.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderComponent,
     FooterComponent,
     DashboardComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    AllPostsComponent,
+    NewPostComponent
   ],
   imports: [
     BrowserModule,

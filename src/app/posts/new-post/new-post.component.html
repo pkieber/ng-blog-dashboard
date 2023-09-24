@@ -39,7 +39,8 @@
 
         <div class="mb-3">
           <label for="">Post Image</label>
-          <input type="file" class="form-control">
+          <img [src]="imgSrc" class="form-control img-fluid img-preview">
+          <input type="file" class="form-control" accept="image/*" (change)="showPreview($event)" >
         </div>
 
       </div>

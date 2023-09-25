@@ -7,6 +7,7 @@ import {
   deleteDoc,
 } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

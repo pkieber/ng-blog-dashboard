@@ -34,6 +34,7 @@
           <label for="">Please select a post category</label>
           <select name="" id="" class="form-control">
             <option value="" disabled>Please select a category</option>
+            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.category }}</option>
           </select>
         </div>
 

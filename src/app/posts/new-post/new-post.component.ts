@@ -17,8 +17,6 @@ export class NewPostComponent implements OnInit{
   constructor(private categoriesService: CategoriesService) {}
 
 
-  // 5:24 !!
-
   ngOnInit(): void {
     this.loadCategories();
   }

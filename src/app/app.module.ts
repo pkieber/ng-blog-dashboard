@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule} from '@angular/common/http'; // Needed for Angular Editor
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
@@ -32,13 +35,15 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     FormsModule,
     ToastrModule.forRoot(),
+    FontAwesomeModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    AngularEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

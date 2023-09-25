@@ -69,7 +69,7 @@
             [ngClass]="{'is-invalid': formControl['category'].invalid && formControl['category'].touched}"
           >
             <option value="" disabled>Please select a category</option>
-            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.category }}</option>
+            <option *ngFor="let cat of categories" [value]="cat.id + '-' + cat.category">{{ cat.category }}</option>
           </select>
           <div *ngIf="formControl['category'].errors?.['required']">
             <div class="alert alert-danger" *ngIf="formControl['category'].invalid && formControl['category'].touched">Please select a category.</div>

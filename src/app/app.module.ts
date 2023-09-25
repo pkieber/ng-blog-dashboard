@@ -13,10 +13,14 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+
+// Firebase
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+
 import { CategoriesComponent } from './categories/categories.component';
 import { AllPostsComponent } from './posts/all-posts/all-posts.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
@@ -35,9 +39,12 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    //Firebase
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+
     FormsModule,
     ToastrModule.forRoot(),
     FontAwesomeModule,

@@ -1,5 +1,6 @@
 import { CategoriesService } from './../../services/categories.service';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/models/category';
 
 @Component({
@@ -14,11 +15,30 @@ export class NewPostComponent implements OnInit{
 
   categories: Category[] = [];
 
-  constructor(private categoriesService: CategoriesService) {}
+  postForm: FormGroup;
+  shouldDisable: boolean = true;
+
+
+  constructor(private categoriesService: CategoriesService, private formBuilder: FormBuilder ) {
+    // Form validation
+    this.postForm = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.minLength(10)]],
+      permalink: ['', Validators.required],
+      excerpt: ['', [Validators.required, Validators.minLength(50)]],
+      category: ['', Validators.required],
+      postImg: ['', Validators.required],
+      content: ['', Validators.required],
+    });
+  }
 
 
   ngOnInit(): void {
     this.loadCategories();
+  }
+
+
+  get formControl() {
+    return this.postForm.controls;
   }
 
 

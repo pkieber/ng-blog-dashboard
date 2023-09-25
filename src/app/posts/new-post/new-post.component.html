@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <form>
+  <form [formGroup]="postForm">
     <div class="row">
 
       <div class="col-md-7">
@@ -14,15 +14,27 @@
           <div class="card-body">
             <div class="mb-3">
               <label>Title</label>
-              <input type="text" class="form-control" (keyup)="onTitleChanged($event)">
+              <input
+                type="text"
+                class="form-control"
+                (keyup)="onTitleChanged($event)"
+                formControlName="title"
+                [ngClass]="{'is-invalid': formControl['title'].invalid && formControl['title'].touched}"
+              >
+              <div *ngIf="formControl['title'].errors?.['required']">
+                <div class="alert alert-danger" *ngIf="formControl['title'].invalid && formControl['title'].touched">Title is required.</div>
+              </div>
+              <div *ngIf="formControl['title'].errors?.['minlength']">
+                <div class="alert alert-danger" *ngIf="formControl['title'].invalid && formControl['title'].touched">Title must be atleast 10 characters long.</div>
+              </div>
             </div>
             <div class="mb-3">
               <label>Permalink</label>
-              <input type="text" class="form-control" [(ngModel)]="permalink" name="permalink" disabled>
+              <input type="text" class="form-control" [(ngModel)]="permalink" name="permalink" [disabled]="shouldDisable" formControlName="permalink">
             </div>
             <div class="mb-3">
               <label>Excerpt</label>
-              <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+              <textarea name="" id="" cols="30" rows="10" class="form-control" formControlName="excerpt"></textarea>
             </div>
           </div>
         </div>
@@ -32,7 +44,7 @@
 
         <div class="mb-3">
           <label for="">Please select a post category</label>
-          <select name="" id="" class="form-control">
+          <select name="" id="" class="form-control" formControlName="category">
             <option value="" disabled>Please select a category</option>
             <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.category }}</option>
           </select>
@@ -41,7 +53,7 @@
         <div class="mb-3">
           <label for="">Post Image</label>
           <img [src]="imgSrc" class="form-control img-fluid img-preview">
-          <input type="file" class="form-control" accept="image/*" (change)="showPreview($event)" >
+          <input type="file" class="form-control" accept="image/*" (change)="showPreview($event)" formControlName="postImg">
         </div>
 
       </div>
@@ -54,7 +66,7 @@
           <div class="card-body">
             <div class="mb-3">
               <label for="">Content</label>
-              <angular-editor placeholder="Add your Content here"></angular-editor>
+              <angular-editor placeholder="Add your Content here" formControlName="content"></angular-editor>
             </div>
           </div>
         </div>

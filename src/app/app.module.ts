@@ -5,7 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule} from '@angular/common/http'; // Needed for Angular Editor
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +44,7 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
     BrowserAnimationsModule,
     HttpClientModule,
     AngularEditorModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

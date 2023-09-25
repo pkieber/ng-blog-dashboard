@@ -2,9 +2,10 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/stor
 import { Injectable } from '@angular/core';
 import {
   Firestore,
-  collection, addDoc,
+  collection, addDoc, collectionData,
 } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,11 @@ export class PostsService {
 
   storage = getStorage();
 
-  constructor(private firestore: Firestore, private toastr: ToastrService) {}
+  constructor(
+    private firestore: Firestore,
+    private toastr: ToastrService,
+    private router: Router,
+  ) {}
 
 
   async uploadImage(selectedImage: File, postData: any) {
@@ -29,8 +34,21 @@ export class PostsService {
       postData.postImgPath = downloadURL;
 
       // Call the addPost() method to save the post data to Firestore + show a success message
-      const dbInstance = collection(this.firestore, 'posts');
-      this.toastr.success('Data Added Successfully');
-      return addDoc(dbInstance, postData);
+      this.addPosts(postData);
   }
+
+
+  addPosts(data: object) {
+    const dbInstance = collection(this.firestore, 'posts');
+    this.toastr.success('Data Added Successfully');
+    this.router.navigate(['/posts']);
+    return addDoc(dbInstance, data);
+  }
+
+
+  loadPosts() {
+    const dbInstance = collection(this.firestore, 'posts');
+    return collectionData(dbInstance, { idField: 'id' });
+  }
+
 }

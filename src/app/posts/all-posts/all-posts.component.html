@@ -11,4 +11,39 @@
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow-effect">
+        <div class="card-body">
+          <table class="table row-border hover">
+            <thead>
+              <tr>
+                <th>No </th>
+                <th>Post Image </th>
+                <th>Title </th>
+                <th>Excerpt </th>
+                <th>Category </th>
+                <th>Date </th>
+                <th>Actions </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor = "let post of posts; let i = index">
+                <td width="10">{{ i+1 }}</td>
+                <td width="200"> <img src="{{ post.postImgPath }}" class="img img-fluid"> </td>
+                <td width="200"> {{ post.title }}</td>
+                <td width="300"> {{ post.excerpt }}</td>
+                <td> {{ post.category.category }}</td>
+                <td> {{ post.createdAt }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

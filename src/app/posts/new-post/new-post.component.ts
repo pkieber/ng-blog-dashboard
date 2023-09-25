@@ -2,6 +2,7 @@ import { CategoriesService } from './../../services/categories.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/models/category';
+import { Post } from 'src/app/models/post';
 
 @Component({
   selector: 'app-new-post',
@@ -68,6 +69,26 @@ export class NewPostComponent implements OnInit{
 
     // Assign image-selection to a global variable
     this.selectedImg = event.target.files[0];
+  }
+
+
+  onSubmit() {
+    console.log(this.postForm.value);
+    const postData: Post = {
+      title: this.postForm.value.title,
+      permalink: this.postForm.value.permalink,
+      category: {
+        categoryId: '',
+        category: '',
+      },
+      postImgPath: '',
+      excerpt: this.postForm.value.excerpt,
+      content: this.postForm.value.content,
+      isFeatured: false,
+      views: 0,
+      status: 'new',
+      createdAt: new Date(),
+    }
   }
 
 }

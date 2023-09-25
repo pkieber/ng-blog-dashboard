@@ -1,5 +1,10 @@
-import { getStorage, ref, uploadBytes } from '@angular/fire/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
 import { Injectable } from '@angular/core';
+import {
+  Firestore,
+  collection, addDoc,
+} from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +13,12 @@ export class PostsService {
 
   storage = getStorage();
 
-  constructor() {}
+  constructor(private firestore: Firestore, private toastr: ToastrService) {}
 
-  async uploadImage(selectedImage: File) {
-    try {
+
+  async uploadImage(selectedImage: File, postData: any) {
       // Generate a unique file path based on the current timestamp
-      const filePath = `postIMG/${Date.now()}_${selectedImage.name}`;
+      const filePath = `postIMG/${Date.now()}`;
       console.log(filePath);
 
       // Create a reference to the storage location
@@ -22,12 +27,14 @@ export class PostsService {
       // Upload the selected image file to the storage location
       await uploadBytes(storageRef, selectedImage);
 
-      // Once the upload is complete, you can return the file path or perform other actions
-      return filePath;
-    } catch (error) {
-      // Handle any errors that may occur during the upload
-      console.error('Error uploading image:', error);
-      throw error; // You can choose to handle or propagate the error as needed
+      // Get the download URL of the uploaded image
+      const downloadURL = await getDownloadURL(storageRef);
+
+      // Assign the download URL to postData.postImgPath
+      postData.postImgPath = downloadURL;
+
+      const dbInstance = collection(this.firestore, 'posts');
+      this.toastr.success('Data Added Successfully');
+      return addDoc(dbInstance, postData);
     }
-  }
 }

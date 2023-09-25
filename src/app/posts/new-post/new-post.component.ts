@@ -59,6 +59,11 @@ export class NewPostComponent implements OnInit{
   onTitleChanged(event: any)  {
     const title = event.target.value;
     this.permalink = title.toLowerCase().replace(/\s+/g, '-');
+
+    const permalinkControl = this.postForm.get('permalink');
+    if (permalinkControl) {
+      permalinkControl.setValue(this.permalink);
+    }
   }
 
 
@@ -78,14 +83,19 @@ export class NewPostComponent implements OnInit{
 
 
   onSubmit() {
-    console.log(this.postForm.value);
+    // Set the permalink based on the title input
+    const title = this.postForm.value.title;
+    this.permalink = title.toLowerCase().replace(/\s+/g, '-');
+
+    // Use optional chaining to safely access the form control and set its value
+    this.postForm.get('permalink')?.setValue(this.permalink);
+
     // Split the string into an array with two elements (categoryId and category).
     let splitted = this.postForm.value.category.split('-');
-    console.log(splitted);
 
     const postData: Post = {
       title: this.postForm.value.title,
-      permalink: this.postForm.value.permalink,
+      permalink: this.permalink, // Set permalink here
       category: {
         categoryId: splitted[0],
         category: splitted[1],
@@ -99,8 +109,10 @@ export class NewPostComponent implements OnInit{
       createdAt: new Date(),
     }
 
-    this.postService.uploadImage(this.selectedImg); // Upload image to Firebase Storage
+    console.log('Check, if Data correct: ', postData);
 
+    this.postService.uploadImage(this.selectedImg, postData); // Upload image to Firebase Storage
   }
+
 
 }

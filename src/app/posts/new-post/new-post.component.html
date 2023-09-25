@@ -30,11 +30,23 @@
             </div>
             <div class="mb-3">
               <label>Permalink</label>
-              <input type="text" class="form-control" [(ngModel)]="permalink" name="permalink" formControlName="permalink">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="permalink"
+                name="permalink"
+                formControlName="permalink"
+              >
             </div>
             <div class="mb-3">
               <label>Excerpt</label>
-              <textarea name="" id="" cols="30" rows="10" class="form-control" formControlName="excerpt"></textarea>
+              <textarea
+                name="" id="" cols="30" rows="10"
+                class="form-control"
+                formControlName="excerpt"
+                [ngClass]="{'is-invalid': formControl['excerpt'].invalid && formControl['excerpt'].touched}"
+              >
+              </textarea>
               <div *ngIf="formControl['excerpt'].errors?.['required']">
                 <div class="alert alert-danger" *ngIf="formControl['excerpt'].invalid && formControl['excerpt'].touched">Excerpt is required.</div>
               </div>
@@ -50,7 +62,12 @@
 
         <div class="mb-3">
           <label for="">Please select a post category</label>
-          <select name="" id="" class="form-control" formControlName="category">
+          <select
+            name="" id=""
+            class="form-control"
+            formControlName="category"
+            [ngClass]="{'is-invalid': formControl['category'].invalid && formControl['category'].touched}"
+          >
             <option value="" disabled>Please select a category</option>
             <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.category }}</option>
           </select>
@@ -62,7 +79,14 @@
         <div class="mb-3">
           <label for="">Post Image</label>
           <img [src]="imgSrc" class="form-control img-fluid img-preview">
-          <input type="file" class="form-control" accept="image/*" (change)="showPreview($event)" formControlName="postImg">
+          <input
+            type="file"
+            class="form-control"
+            accept="image/*"
+            (change)="showPreview($event)"
+            formControlName="postImg"
+            [ngClass]="{'is-invalid': formControl['postImg'].invalid && formControl['postImg'].touched}"
+          >
           <div *ngIf="formControl['postImg'].errors?.['required']">
             <div class="alert alert-danger" *ngIf="formControl['postImg'].invalid && formControl['postImg'].touched">Post Image is required.</div>
           </div>
@@ -76,7 +100,10 @@
           <div class="card-body">
             <div class="mb-3">
               <label for="">Content</label>
-              <angular-editor placeholder="Add your Content here" formControlName="content"></angular-editor>
+              <angular-editor
+                placeholder="Add your Content here"
+                formControlName="content"
+              ></angular-editor>
               <div *ngIf="formControl['content'].errors?.['required']">
                 <div class="alert alert-danger" *ngIf="formControl['content'].invalid && formControl['content'].touched">Content is required.</div>
               </div>

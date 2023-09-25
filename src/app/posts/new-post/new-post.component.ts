@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/models/category';
 import { Post } from 'src/app/models/post';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-new-post',
@@ -20,7 +21,11 @@ export class NewPostComponent implements OnInit{
   shouldDisable: boolean = true;
 
 
-  constructor(private categoriesService: CategoriesService, private formBuilder: FormBuilder ) {
+  constructor(
+    private categoriesService: CategoriesService,
+    private formBuilder: FormBuilder,
+    private postService: PostsService
+  ) {
     // Form validation
     this.postForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
@@ -93,6 +98,9 @@ export class NewPostComponent implements OnInit{
       status: 'new',
       createdAt: new Date(),
     }
+
+    this.postService.uploadImage(this.selectedImg); // Upload image to Firebase Storage
+
   }
 
 }

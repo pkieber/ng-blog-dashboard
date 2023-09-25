@@ -11,12 +11,10 @@ import { PostsService } from 'src/app/services/posts.service';
   styleUrls: ['./new-post.component.scss']
 })
 export class NewPostComponent implements OnInit{
-  permalink: string = ''; // for two-way-binding you need a global variable.
+  permalink: string = '';
   imgSrc: any = './assets/placeholder-img.jpg';
   selectedImg: any;
-
   categories: Category[] = [];
-
   postForm: FormGroup;
   shouldDisable: boolean = true;
 
@@ -55,7 +53,7 @@ export class NewPostComponent implements OnInit{
   }
 
 
-  // Show Permalink once user starts typing
+  // Update permalink in real-time
   onTitleChanged(event: any)  {
     const title = event.target.value;
     this.permalink = title.toLowerCase().replace(/\s+/g, '-');
@@ -83,19 +81,12 @@ export class NewPostComponent implements OnInit{
 
 
   onSubmit() {
-    // Set the permalink based on the title input
-    const title = this.postForm.value.title;
-    this.permalink = title.toLowerCase().replace(/\s+/g, '-');
-
-    // Use optional chaining to safely access the form control and set its value
-    this.postForm.get('permalink')?.setValue(this.permalink);
-
     // Split the string into an array with two elements (categoryId and category).
     let splitted = this.postForm.value.category.split('-');
 
     const postData: Post = {
       title: this.postForm.value.title,
-      permalink: this.permalink, // Set permalink here
+      permalink: this.permalink,
       category: {
         categoryId: splitted[0],
         category: splitted[1],
@@ -109,10 +100,7 @@ export class NewPostComponent implements OnInit{
       createdAt: new Date(),
     }
 
-    console.log('Check, if Data correct: ', postData);
-
-    this.postService.uploadImage(this.selectedImg, postData); // Upload image to Firebase Storage
+    this.postService.uploadImage(this.selectedImg, postData);
   }
-
 
 }

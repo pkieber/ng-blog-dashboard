@@ -19,22 +19,18 @@ export class PostsService {
   async uploadImage(selectedImage: File, postData: any) {
       // Generate a unique file path based on the current timestamp
       const filePath = `postIMG/${Date.now()}`;
-      console.log(filePath);
 
-      // Create a reference to the storage location
+      // Create a reference to the storage location + upload the file
       const storageRef = ref(this.storage, filePath);
-
-      // Upload the selected image file to the storage location
       await uploadBytes(storageRef, selectedImage);
 
-      // Get the download URL of the uploaded image
+      // Get the download URL of the uploaded image + assign it to the postImgPath property
       const downloadURL = await getDownloadURL(storageRef);
-
-      // Assign the download URL to postData.postImgPath
       postData.postImgPath = downloadURL;
 
+      // Call the addPost() method to save the post data to Firestore + show a success message
       const dbInstance = collection(this.firestore, 'posts');
       this.toastr.success('Data Added Successfully');
       return addDoc(dbInstance, postData);
-    }
+  }
 }

@@ -23,7 +23,7 @@ export class NewPostComponent implements OnInit{
     // Form validation
     this.postForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
-      permalink: ['', Validators.required],
+      permalink: [{ value: '', disabled: this.shouldDisable }, Validators.required],
       excerpt: ['', [Validators.required, Validators.minLength(50)]],
       category: ['', Validators.required],
       postImg: ['', Validators.required],

@@ -1,6 +1,8 @@
 import { CategoriesService } from './../../services/categories.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { collectionData } from 'rxfire/firestore';
 import { Category } from 'src/app/models/category';
 import { Post } from 'src/app/models/post';
 import { PostsService } from 'src/app/services/posts.service';
@@ -18,12 +20,26 @@ export class NewPostComponent implements OnInit{
   postForm: FormGroup;
   shouldDisable: boolean = true;
 
+  postId!: string;
+  post!: string;
+  posts!: Array<any>;
+
 
   constructor(
     private categoriesService: CategoriesService,
     private formBuilder: FormBuilder,
-    private postService: PostsService
+    private postService: PostsService,
+    private route: ActivatedRoute,
   ) {
+
+    ////////////////////////////// 06:58 ///////////
+    this.route.queryParams.subscribe((val: any) => {
+      this.postService.updatePost(val.postId, {}).then(() => {
+        this.post = val.post;
+      });
+    });
+
+
     // Form validation
     this.postForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
@@ -51,6 +67,7 @@ export class NewPostComponent implements OnInit{
       this.categories = data;
     });
   }
+
 
 
   // Update permalink in real-time

@@ -2,7 +2,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/stor
 import { Injectable } from '@angular/core';
 import {
   Firestore,
-  collection, addDoc, collectionData,
+  collection, doc, addDoc, collectionData, getDoc, updateDoc, deleteDoc,
 } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -49,6 +49,20 @@ export class PostsService {
   loadPosts() {
     const dbInstance = collection(this.firestore, 'posts');
     return collectionData(dbInstance, { idField: 'id' });
+  }
+
+
+  updatePost(postId: string, data: object): Promise<void> {
+    const docInstance = doc(this.firestore, 'posts', postId);
+    this.toastr.success('Data Updated Successfully');
+    return updateDoc(docInstance, data);
+  }
+
+
+  deletePost(postId: string) {
+    const docInstance = doc(this.firestore, 'posts', postId);
+    this.toastr.success('Data Deleted Successfully');
+    return deleteDoc(docInstance);
   }
 
 }

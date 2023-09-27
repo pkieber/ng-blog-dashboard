@@ -24,6 +24,7 @@ export class NewPostComponent implements OnInit {
   post!: string;
 
   formStatus: string = 'Add New';
+  docId: string = '';
 
   constructor(
     private categoriesService: CategoriesService,
@@ -31,22 +32,25 @@ export class NewPostComponent implements OnInit {
     private postService: PostsService,
     private route: ActivatedRoute,
   ) {
+
+    // Get the selected post. If the post does not exist, redirect to the posts page.
     this.route.queryParams.pipe(
       switchMap((queryParams: any) => {
-        return from(this.postService.loadSelectedDoc(queryParams.id)).pipe(
+        this.docId = queryParams.id;
+        return from(this.postService.loadSelectedDoc(this.docId)).pipe(
         );
       })
     ).subscribe((documentSnapshot: QueryDocumentSnapshot<DocumentData> | null) => {
       if (documentSnapshot) {
         const post: Post = documentSnapshot.data() as Post;
-        console.log("Selected Post: ", post);
         this.initForm(post);
       } else {
         console.log("Document does not exist.");
       }
     });
 
-    // Form validation
+
+    // Initialize the form with default values and validators.
     this.postForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
       permalink: [{ value: '', disabled: this.shouldDisable }, Validators.required],
@@ -57,19 +61,24 @@ export class NewPostComponent implements OnInit {
     });
   }
 
+
   ngOnInit(): void {
     this.loadCategories();
   }
 
+
+  // Getters for form controls to access them in the template.
   get formControl() {
     return this.postForm.controls;
   }
+
 
   loadCategories() {
     this.categoriesService.loadCategories().subscribe((data: any) => {
       this.categories = data;
     });
   }
+
 
   // Update permalink in real-time
   onTitleChanged(event: any) {
@@ -81,6 +90,7 @@ export class NewPostComponent implements OnInit {
       permalinkControl.setValue(this.permalink);
     }
   }
+
 
   // Show Image Preview
   showPreview(event: any) {
@@ -95,6 +105,7 @@ export class NewPostComponent implements OnInit {
     // Assign image-selection to a global variable
     this.selectedImg = event.target.files[0];
   }
+
 
   onSubmit() {
     // Split the string into an array with two elements (categoryId and category).
@@ -117,7 +128,7 @@ export class NewPostComponent implements OnInit {
       id: ''
     }
 
-    this.postService.uploadImage(this.selectedImg, postData);
+    this.postService.uploadImage(this.selectedImg, postData, this.formStatus, this.docId);
     this.postForm.reset();
     this.imgSrc = './assets/placeholder-img.jpg';
   }

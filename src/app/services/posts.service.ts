@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class PostsService {
 
-  storage = getStorage();
+  storage = getStorage(); // Create a storage reference from our storage service
 
   constructor(
     private firestore: Firestore,
@@ -21,8 +21,8 @@ export class PostsService {
   ) {}
 
 
-  async uploadImage(selectedImage: File, postData: any) {
-      // Generate a unique file path based on the current timestamp
+  // In order to upload the image to Firebase Storage, we need to create a reference to the storage location with a unique file path.
+  async uploadImage(selectedImage: File, postData: any, formStatus: string, postId: string) {
       const filePath = `postIMG/${Date.now()}`;
 
       // Create a reference to the storage location + upload the file
@@ -33,12 +33,16 @@ export class PostsService {
       const downloadURL = await getDownloadURL(storageRef);
       postData.postImgPath = downloadURL;
 
-      // Call the addPost() method to save the post data to Firestore + show a success message
-      this.addPosts(postData);
+      if(formStatus === 'Edit') {
+        this.updatePost(postId, postData);
+      } else {
+        this.saveData(postData);
+      }
   }
 
 
-  addPosts(data: object) {
+  // Called after data and image are uploaded or edited.
+  saveData(data: object) {
     const dbInstance = collection(this.firestore, 'posts');
     this.toastr.success('Data Added Successfully');
     this.router.navigate(['/posts']);
@@ -53,7 +57,6 @@ export class PostsService {
 
 
   updatePost(postId: string, data: object): Promise<void> {
-    /*const docInstance = doc(this.firestore, `posts/${postId}`, postId);*/
     const docInstance = doc(this.firestore, 'posts', postId);
     this.toastr.success('Data Updated Successfully');
     return updateDoc(docInstance, data);
@@ -61,22 +64,18 @@ export class PostsService {
 
 
   deletePost(postId: string) {
-    /*const docInstance = doc(this.firestore, `posts/${postId}`, postId);*/
     const docInstance = doc(this.firestore, 'posts', postId);
     this.toastr.success('Data Deleted Successfully');
     return deleteDoc(docInstance);
   }
 
 
-  // Editing Form is not in same component as the Post List. So we need to get the post data by ID.
+  // The data is not being edited in the same component where it is being displayed...
+  // So we need to load the data in the edit component.
   loadSelectedDoc(postId: string) {
     const docInstance = doc(this.firestore, 'posts', postId);
-    console.log("Get Post by ID: ", docInstance);
     return getDoc(docInstance).then((documentSnapshot: DocumentSnapshot) => {
       if (documentSnapshot.exists()) {
-        // Extract the ID from the documentSnapshot
-        const postId = documentSnapshot.id;
-        console.log("Post ID: ", postId);
         return documentSnapshot;
       } else {
         console.log("Document does not exist.");

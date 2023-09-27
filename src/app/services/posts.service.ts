@@ -2,7 +2,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/stor
 import { Injectable } from '@angular/core';
 import {
   Firestore,
-  collection, doc, addDoc, collectionData, getDoc, updateDoc, deleteDoc,
+  collection, doc, addDoc, collectionData, getDoc, updateDoc, deleteDoc, DocumentSnapshot,
 } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -53,25 +53,36 @@ export class PostsService {
 
 
   updatePost(postId: string, data: object): Promise<void> {
-    const docInstance = doc(this.firestore, `posts/${postId}`, postId);
-    /*const docInstance = doc(this.firestore, 'posts', postId);*/
+    /*const docInstance = doc(this.firestore, `posts/${postId}`, postId);*/
+    const docInstance = doc(this.firestore, 'posts', postId);
     this.toastr.success('Data Updated Successfully');
     return updateDoc(docInstance, data);
   }
 
 
   deletePost(postId: string) {
-    const docInstance = doc(this.firestore, `posts/${postId}`, postId);
-    /*const docInstance = doc(this.firestore, 'posts', postId);*/
+    /*const docInstance = doc(this.firestore, `posts/${postId}`, postId);*/
+    const docInstance = doc(this.firestore, 'posts', postId);
     this.toastr.success('Data Deleted Successfully');
     return deleteDoc(docInstance);
   }
 
 
-  // 06:46 - Editing Form is not in same component as the Post List. So we need to get the post data by ID.
-  getPostById(postId: string)  {
-    const docInstance = doc(this.firestore, `posts/${postId}`, postId);
-    console.log("Get Post by ID: ", docInstance)
-    return getDoc(docInstance);
+  // Editing Form is not in same component as the Post List. So we need to get the post data by ID.
+  loadSelectedDoc(postId: string) {
+    const docInstance = doc(this.firestore, 'posts', postId);
+    console.log("Get Post by ID: ", docInstance);
+    return getDoc(docInstance).then((documentSnapshot: DocumentSnapshot) => {
+      if (documentSnapshot.exists()) {
+        // Extract the ID from the documentSnapshot
+        const postId = documentSnapshot.id;
+        console.log("Post ID: ", postId);
+        return documentSnapshot;
+      } else {
+        console.log("Document does not exist.");
+        return null;
+      }
+    });
   }
+
 }

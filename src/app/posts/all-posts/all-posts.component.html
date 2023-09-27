@@ -38,7 +38,7 @@
                 <td> {{ post.category.category }}</td>
                 <td>{{ post.createdAt }}</td>
                 <td>
-                  <button class="btn btn-sm btn-warning" routerLink="/posts/new" [queryParams]="{id: post.category.categoryId}">EDIT</button>
+                  <button class="btn btn-sm btn-warning" routerLink="/posts/new" [queryParams]="{id: post.id}">EDIT</button>
                   <button class="btn btn-sm btn-danger ml-3">DELETE</button>
                 </td>
               </tr>

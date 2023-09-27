@@ -68,7 +68,7 @@ export class PostsService {
   }
 
 
-  //
+  // 06:46 - Editing Form is not in same component as the Post List. So we need to get the post data by ID.
   getPostById(postId: string)  {
     const docInstance = doc(this.firestore, `posts/${postId}`, postId);
     console.log("Get Post by ID: ", docInstance)

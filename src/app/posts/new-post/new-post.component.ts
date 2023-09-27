@@ -114,6 +114,7 @@ export class NewPostComponent implements OnInit{
       views: 0,
       status: 'new',
       createdAt: new Date(),
+      id: ''
     }
 
     this.postService.uploadImage(this.selectedImg, postData);

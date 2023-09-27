@@ -21,8 +21,9 @@ export class NewPostComponent implements OnInit {
   categories: Category[] = [];
   postForm: FormGroup;
   shouldDisable: boolean = true;
-
   post!: string;
+
+  formStatus: string = 'Add New';
 
   constructor(
     private categoriesService: CategoriesService,
@@ -131,6 +132,8 @@ export class NewPostComponent implements OnInit {
       excerpt: post.excerpt,
       content: post.content,
     });
+
     this.imgSrc = post.postImgPath;
+    this.formStatus = 'Edit';
   }
 }

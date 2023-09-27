@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentData, QueryDocumentSnapshot } from 'rxfire/firestore/interfaces';
-import { from } from 'rxjs';
+import { EMPTY, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/models/category';
 import { Post } from 'src/app/models/post';
@@ -32,24 +32,6 @@ export class NewPostComponent implements OnInit {
     private postService: PostsService,
     private route: ActivatedRoute,
   ) {
-
-    // Get the selected post. If the post does not exist, redirect to the posts page.
-    this.route.queryParams.pipe(
-      switchMap((queryParams: any) => {
-        this.docId = queryParams.id;
-        return from(this.postService.loadSelectedDoc(this.docId)).pipe(
-        );
-      })
-    ).subscribe((documentSnapshot: QueryDocumentSnapshot<DocumentData> | null) => {
-      if (documentSnapshot) {
-        const post: Post = documentSnapshot.data() as Post;
-        this.initForm(post);
-      } else {
-        console.log("Document does not exist.");
-      }
-    });
-
-
     // Initialize the form with default values and validators.
     this.postForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
@@ -59,7 +41,25 @@ export class NewPostComponent implements OnInit {
       postImg: ['', Validators.required],
       content: ['', Validators.required],
     });
+
+    // Check if docId exists
+    if (this.route.snapshot.queryParams['id']) {
+      this.docId = this.route.snapshot.queryParams['id'];
+      // Load selected doc and initialize the form
+      from(this.postService.loadSelectedDoc(this.docId)).pipe(
+        switchMap((documentSnapshot: QueryDocumentSnapshot<DocumentData> | null) => {
+          if (documentSnapshot) {
+            const post: Post = documentSnapshot.data() as Post;
+            this.initForm(post);
+          } else {
+            console.log("Document does not exist.");
+          }
+          return EMPTY; // Return an empty observable since we don't need to continue.
+        })
+      ).subscribe();
+    }
   }
+
 
 
   ngOnInit(): void {

@@ -72,16 +72,23 @@ export class PostsService {
 
   // The data is not being edited in the same component where it is being displayed...
   // So we need to load the data in the edit component.
-  loadSelectedDoc(postId: string) {
-    const docInstance = doc(this.firestore, 'posts', postId);
-    return getDoc(docInstance).then((documentSnapshot: DocumentSnapshot) => {
-      if (documentSnapshot.exists()) {
-        return documentSnapshot;
-      } else {
-        console.log("Document does not exist.");
-        return null;
-      }
-    });
+async loadSelectedDoc(postId: string) {
+  const docInstance = doc(this.firestore, 'posts', postId);
+
+  try {
+    const documentSnapshot = await getDoc(docInstance);
+
+    if (documentSnapshot.exists()) {
+      return documentSnapshot;
+    } else {
+      console.log("Document does not exist.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error loading document:", error);
+    throw error; // Rethrow the error so it can be handled in the calling code.
   }
+}
+
 
 }

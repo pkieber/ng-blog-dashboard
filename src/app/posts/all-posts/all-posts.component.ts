@@ -23,4 +23,11 @@ export class AllPostsComponent implements OnInit {
       this.posts = data;
     });
   }
+
+
+  // Delete the post image from Firebase Storage and the post from Firestore.
+  onDelete(postImgPath: string, id: string) {
+    this.postService.deleteImage(postImgPath, id);
+  }
+
 }

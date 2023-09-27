@@ -39,7 +39,7 @@
                 <td>{{ post.createdAt }}</td>
                 <td>
                   <button class="btn btn-sm btn-warning" routerLink="/posts/new" [queryParams]="{id: post.id}">EDIT</button>
-                  <button class="btn btn-sm btn-danger ml-3">DELETE</button>
+                  <button class="btn btn-sm btn-danger ml-3" (click)="onDelete(post.postImgPath, post.id)">DELETE</button>
                 </td>
               </tr>
             </tbody>

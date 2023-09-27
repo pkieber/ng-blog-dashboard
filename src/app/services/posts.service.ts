@@ -1,4 +1,4 @@
-import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
 import { Injectable } from '@angular/core';
 import {
   Firestore,
@@ -21,6 +21,7 @@ export class PostsService {
   ) {}
 
 
+  // Upload the image to Firebase Storage and then call the saveData() method to save the data to Firestore.
   // In order to upload the image to Firebase Storage, we need to create a reference to the storage location with a unique file path.
   async uploadImage(selectedImage: File, postData: any, formStatus: string, postId: string) {
       const filePath = `postIMG/${Date.now()}`;
@@ -63,32 +64,48 @@ export class PostsService {
   }
 
 
-  deletePost(postId: string) {
+  // The data is not being edited in the same component where it is being displayed...
+  // So we need to load the data in the edit component.
+  async loadSelectedDoc(postId: string) {
+    const docInstance = doc(this.firestore, 'posts', postId);
+
+    try {
+      const documentSnapshot = await getDoc(docInstance);
+
+      if (documentSnapshot.exists()) {
+        return documentSnapshot;
+      } else {
+        console.log("Document does not exist.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error loading document:", error);
+      throw error; // Rethrow the error so it can be handled in the calling code.
+    }
+  }
+
+
+  // Delete the image from Firebase Storage and the data from Firestore.
+  async deleteImage(filePath: string, postId: string) {
+    try {
+      // Create a reference to the storage location you want to delete
+      const storageRef = ref(this.storage, filePath);
+
+      // Delete the object
+      await deleteObject(storageRef);
+      await this.deleteData(postId);
+
+      console.log(`File ${filePath} successfully deleted.`);
+    } catch (error) {
+      console.error(`Error deleting file: ${error}`);
+    }
+  }
+
+
+  deleteData(postId: string) {
     const docInstance = doc(this.firestore, 'posts', postId);
     this.toastr.success('Data Deleted Successfully');
     return deleteDoc(docInstance);
   }
-
-
-  // The data is not being edited in the same component where it is being displayed...
-  // So we need to load the data in the edit component.
-async loadSelectedDoc(postId: string) {
-  const docInstance = doc(this.firestore, 'posts', postId);
-
-  try {
-    const documentSnapshot = await getDoc(docInstance);
-
-    if (documentSnapshot.exists()) {
-      return documentSnapshot;
-    } else {
-      console.log("Document does not exist.");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error loading document:", error);
-    throw error; // Rethrow the error so it can be handled in the calling code.
-  }
-}
-
 
 }

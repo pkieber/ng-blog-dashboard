@@ -108,4 +108,11 @@ export class PostsService {
     return deleteDoc(docInstance);
   }
 
+
+  markFeatured(postId: string, featuredData: boolean) {
+    const docInstance = doc(this.firestore, 'posts', postId);
+    this.toastr.info('Feature Status Updated');
+    return updateDoc(docInstance, { isFeatured: featuredData });
+  }
+
 }

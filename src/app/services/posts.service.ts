@@ -53,16 +53,25 @@ export class PostsService {
 
 
   updatePost(postId: string, data: object): Promise<void> {
-    const docInstance = doc(this.firestore, 'posts', postId);
+    const docInstance = doc(this.firestore, `posts/${postId}`, postId);
+    /*const docInstance = doc(this.firestore, 'posts', postId);*/
     this.toastr.success('Data Updated Successfully');
     return updateDoc(docInstance, data);
   }
 
 
   deletePost(postId: string) {
-    const docInstance = doc(this.firestore, 'posts', postId);
+    const docInstance = doc(this.firestore, `posts/${postId}`, postId);
+    /*const docInstance = doc(this.firestore, 'posts', postId);*/
     this.toastr.success('Data Deleted Successfully');
     return deleteDoc(docInstance);
   }
 
+
+  //
+  getPostById(postId: string)  {
+    const docInstance = doc(this.firestore, `posts/${postId}`, postId);
+    console.log("Get Post by ID: ", docInstance)
+    return getDoc(docInstance);
+  }
 }

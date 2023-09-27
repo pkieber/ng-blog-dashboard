@@ -31,11 +31,10 @@ export class NewPostComponent implements OnInit{
     private postService: PostsService,
     private route: ActivatedRoute,
   ) {
-
-    ////////////////////////////// 06:58 ///////////
     this.route.queryParams.subscribe((val: any) => {
       this.postService.updatePost(val.postId, {}).then(() => {
         this.post = val.post;
+        console.log("WTF: ", this.post);
       });
     });
 

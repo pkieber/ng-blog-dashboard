@@ -24,7 +24,7 @@
                 <div class="alert alert-danger" *ngIf="formControl['title'].invalid && formControl['title'].touched">Title is required.</div>
               </div>
               <div *ngIf="formControl['title'].errors?.['minlength']">
-                <div class="alert alert-danger" *ngIf="formControl['title'].invalid && formControl['title'].touched">Title must be atleast 10 characters long.</div>
+                <div class="alert alert-danger" *ngIf="formControl['title'].invalid && formControl['title'].touched">Title must be at least 10 characters long.</div>
               </div>
             </div>
             <div class="mb-3">
@@ -32,7 +32,6 @@
               <input
                 type="text"
                 class="form-control"
-                [(ngModel)]="permalink"
                 name="permalink"
                 formControlName="permalink"
               >
@@ -50,7 +49,7 @@
                 <div class="alert alert-danger" *ngIf="formControl['excerpt'].invalid && formControl['excerpt'].touched">Excerpt is required.</div>
               </div>
               <div *ngIf="formControl['excerpt'].errors?.['minlength']">
-                <div class="alert alert-danger" *ngIf="formControl['excerpt'].invalid && formControl['excerpt'].touched">Excerpt must be atleast 50 characters long.</div>
+                <div class="alert alert-danger" *ngIf="formControl['excerpt'].invalid && formControl['excerpt'].touched">Excerpt must be at least 50 characters long.</div>
               </div>
             </div>
           </div>
@@ -112,5 +111,4 @@
       </div>
     </div>
   </form>
-
 </div>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -6,9 +7,10 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   userEmail: string | null;
+  isLoggedIn$!: Observable<boolean>;
 
   constructor(private authService: AuthService) {
     // Retrieve the user from local storage and parse it as a JavaScript object
@@ -18,6 +20,12 @@ export class HeaderComponent {
     // Extract the email property
     this.userEmail = userObject ? userObject.email : null;
   }
+
+
+  ngOnInit() {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+  }
+
 
   onLogout() {
     this.authService.logout();

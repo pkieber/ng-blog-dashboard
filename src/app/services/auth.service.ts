@@ -16,6 +16,8 @@ export class AuthService {
     map(user => !!user)
   );
 
+  isLoggedInGuard: boolean = false; // used for router guard.
+
 
   constructor(private auth: Auth, private toastr: ToastrService, private router: Router) {
     this.loadUser(); // Initialize currentUser when the service is created
@@ -27,6 +29,7 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(() => {
         this.toastr.success('Logged in successfully', 'Success');
+        this.isLoggedInGuard = true; // used for router guard.
         this.router.navigate(['/']);
       })
       .catch(() => {
@@ -48,6 +51,7 @@ export class AuthService {
   logout() {
     this.auth.signOut().then(() => {
       this.toastr.success('Logged out successfully', 'Success');
+      this.isLoggedInGuard = false; // used for router guard.
       this.router.navigate(['/login']);
     }).catch(() => {
       this.toastr.error('Logout failed', 'Error');

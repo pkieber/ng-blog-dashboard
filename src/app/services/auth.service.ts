@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -8,20 +9,18 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AuthService {
 
-  constructor(private auth: Auth, private toastr: ToastrService ) { }
+  constructor(private auth: Auth, private toastr: ToastrService, private router: Router ) { }
 
 
-  // Login
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(() => {
         this.toastr.success('Logged in successfully', 'Success');
+        this.router.navigate(['/']);
       })
-      .catch(error => {
-        // Handle login error here
-        this.toastr.error('Login failed: ' + error.message, 'Error');
+      .catch(() => {
+        this.toastr.warning('Login failed: invalid user or password', 'Error');
       });
   }
-
 
 }

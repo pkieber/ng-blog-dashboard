@@ -2,24 +2,30 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  currentUser: User | null = null; // To store the current user.
-  loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // To keep track whether the user is logged in or not.
+  // BehaviorSubject to store the current user's data.
+  currentUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+
+  // Observable representing whether a user is logged in or not.
+  loggedIn$: Observable<boolean> = this.currentUser$.pipe(
+    map(user => !!user)
+  );
 
 
   constructor(private auth: Auth, private toastr: ToastrService, private router: Router) {
     this.loadUser(); // Initialize currentUser when the service is created
   }
 
+
+  // Logs in the user with the provided email and password.
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(() => {
-        this.loggedIn.next(true);
         this.toastr.success('Logged in successfully', 'Success');
         this.router.navigate(['/']);
       })
@@ -29,29 +35,22 @@ export class AuthService {
   }
 
 
-  // This method is called when the service is created to initialize the currentUser property.
+  // Loads the current user's data and updates the currentUser$ BehaviorSubject.
+  // This method is called when the service is created.
   private loadUser() {
     this.auth.onAuthStateChanged((user) => {
-      this.currentUser = user;
-      localStorage.setItem('user', JSON.stringify(user)); //
+      this.currentUser$.next(user);
     });
   }
 
 
+  // Logs out the current user.
   logout() {
     this.auth.signOut().then(() => {
-      this.currentUser = null;
-      this.loggedIn.next(false);
       this.toastr.success('Logged out successfully', 'Success');
       this.router.navigate(['/login']);
     }).catch(() => {
       this.toastr.error('Logout failed', 'Error');
     });
   }
-
-
-  isLoggedIn() {
-    return this.loggedIn.asObservable();
-  }
-
 }

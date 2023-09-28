@@ -9,29 +9,23 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  userEmail: string | null;
+  userEmail!: string | null;
   isLoggedIn$!: Observable<boolean>;
 
-  constructor(private authService: AuthService) {
-    // Retrieve the user from local storage and parse it as a JavaScript object
-    const userString = localStorage.getItem('user');
-    const userObject = userString ? JSON.parse(userString) : null;
-
-    // Extract the email property
-    this.userEmail = userObject ? userObject.email : null;
-  }
+  constructor(private authService: AuthService) {}
 
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn();
+    this.isLoggedIn$ = this.authService.loggedIn$;
+
+    // Subscribe to changes in the current user to update userEmail
+    this.authService.currentUser$.subscribe((user) => {
+      this.userEmail = user ? user.email : null;
+    });
   }
 
 
   onLogout() {
     this.authService.logout();
-
-    // Remove the user from local storage
-    localStorage.removeItem('user');
-    this.userEmail = null;
   }
 }

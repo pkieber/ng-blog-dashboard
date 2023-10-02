@@ -25,6 +25,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { AllPostsComponent } from './posts/all-posts/all-posts.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
 import { LoginComponent } from './auth/login/login.component';
+import { SubscribersComponent } from './subscribers/subscribers.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { LoginComponent } from './auth/login/login.component';
     CategoriesComponent,
     AllPostsComponent,
     NewPostComponent,
-    LoginComponent
+    LoginComponent,
+    SubscribersComponent
   ],
   imports: [
     BrowserModule,

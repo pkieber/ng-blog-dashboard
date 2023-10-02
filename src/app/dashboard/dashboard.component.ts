@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faClipboardList, faFileImage } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardList, faFileImage, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -10,5 +10,6 @@ import { faClipboardList, faFileImage } from '@fortawesome/free-solid-svg-icons'
 export class DashboardComponent {
   clipboardList = faClipboardList;
   fileImage = faFileImage;
+  fileUsers = faUsers;
 }
 

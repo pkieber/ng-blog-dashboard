@@ -1,11 +1,13 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
-      <h3 class="text-center text-primary-theme">{{ formStatus }} Categories</h3>
-      <p class="text-center mb-5">You can add new categories from here...!</p>
-
+      <div class="card-body text-center">
+        <h3 class="text-center text-primary-theme">{{ formStatus }} Categories</h3>
+        <p class="text-center mb-3">You can add new categories from here...!</p>
+        <button class="btn btn-warning mb-5" routerLink="/">Back To Dashboard</button>
+      </div>
       <!-- Form -->
-      <form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm.value)">
+      <form class="row" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm.value)">
         <div class="mb-3 col-md-10">
           <input
             type="text" name="category"
@@ -29,11 +31,11 @@
     </div>
   </div>
 
-  <div class="row mt-5 mb-5">
+  <div class="row mb-5">
     <!-- Empty container -->
     <div class="col-md-3"></div>
     <!-- Show list of categories -->
-    <div class="col-md-6">
+    <div class="col-md-6 mt-5">
       <div class="card shadow-effect">
         <div class="card-body">
           <table class="table row-border hover">

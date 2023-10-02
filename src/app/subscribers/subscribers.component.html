@@ -26,10 +26,10 @@
             </thead>
 
             <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+              <tr *ngFor="let subs of subscribers; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ subs.name }}</td> <!-- Subscriber-interface -->
+                <td>{{ subs.email }}</td> <!-- Subscriber-interface -->
                 <td>
                   <button class="btn btn-sm btn-danger ml-3">DELETE</button>
                 </td>

@@ -33,8 +33,8 @@
               <tr *ngFor = "let post of posts; let i = index">
                 <td width="10">{{ i+1 }}</td>
                 <td width="200"> <img src="{{ post.postImgPath }}" class="img img-fluid"> </td>
-                <td width="200"> {{ post.title }}</td>
-                <td width="300"> {{ post.excerpt }}</td>
+                <td width="200"> {{ post.title }}</td> <!-- Post-interface -->
+                <td width="300"> {{ post.excerpt }}</td> <!-- Post-interface -->
                 <td> {{ post.category.category }}</td>
                 <td>{{ post.createdAt }}</td>
                 <td>

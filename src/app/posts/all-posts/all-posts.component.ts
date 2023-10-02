@@ -8,7 +8,7 @@ import { Post } from 'src/app/models/post';
   styleUrls: ['./all-posts.component.scss']
 })
 export class AllPostsComponent implements OnInit {
-  posts: Post[] = [];
+  posts: Post[] = []; // Post-interface
 
 
   constructor( private postService: PostsService) { }

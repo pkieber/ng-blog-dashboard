@@ -15,6 +15,15 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   color: var(--body-text-color);
+  user-select: none;
+}
+
+button {
+  white-space: nowrap;
+}
+
+a {
+  text-decoration: none;
 }
 
 .site-logo {

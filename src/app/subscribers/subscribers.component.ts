@@ -18,11 +18,16 @@ export class SubscribersComponent implements OnInit {
     this.loadSubscribers();
   }
 
+
   loadSubscribers() {
     this.subService.loadSubscribers().subscribe((data: any) => {
-      console.log(data);
       this.subscribers = data;
     });
+  }
+
+
+  onDelete(subscriberId: string) {
+    this.subService.deleteSubscribers(subscriberId);
   }
 
 }

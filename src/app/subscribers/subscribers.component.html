@@ -26,12 +26,12 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let subs of subscribers; let i = index">
+              <tr *ngFor="let data of subscribers; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{ subs.name }}</td> <!-- Subscriber-interface -->
-                <td>{{ subs.email }}</td> <!-- Subscriber-interface -->
+                <td>{{ data.name }}</td> <!-- Subscriber-interface -->
+                <td>{{ data.email }}</td> <!-- Subscriber-interface -->
                 <td>
-                  <button class="btn btn-sm btn-danger ml-3">DELETE</button>
+                  <button class="btn btn-sm btn-danger ml-3" (click)="onDelete(data.id)">DELETE</button>
                 </td>
               </tr>
             </tbody>

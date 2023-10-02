@@ -36,7 +36,7 @@
                 <td width="200"> {{ post.title }}</td> <!-- Post-interface -->
                 <td width="300"> {{ post.excerpt }}</td> <!-- Post-interface -->
                 <td> {{ post.category.category }}</td>
-                <td>{{ post.createdAt }}</td>
+                <td>{{ post.createdAt | date: 'dd-MM-yyyy' }}</td>
                 <td>
                   <button class="btn btn-sm btn-warning" routerLink="/posts/new" [queryParams]="{id: post.id}">EDIT</button>
                   <button class="btn btn-sm btn-danger ml-3" (click)="onDelete(post.postImgPath, post.id)">DELETE</button>

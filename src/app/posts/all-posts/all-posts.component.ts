@@ -20,7 +20,12 @@ export class AllPostsComponent implements OnInit {
 
   loadPosts() {
     this.postService.loadPosts().subscribe((data: any) => {
-      this.posts = data;
+      this.posts = data.map((post: Post) => {
+        return {
+          ...post,
+          createdAt: (post.createdAt as any).toDate()
+        };
+      });
     });
   }
 
